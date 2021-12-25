@@ -13,22 +13,19 @@
      (display (first HANDLE-ARGS-EXPR))))
 (provide (rename-out [funstacker-module-begin #%module-begin]))
 
-(define (handle-args . args))
-
-(define (pop-stack!)
-  (define arg (first stack))
-  (set! stack (rest stack))
-  arg)
-
-(define (push-stack! arg)
-  (set! stack (cons arg stack)))
-
-(define (handle [arg #f])
-  (cond
-    [(number? arg) (push-stack! arg)]
-    [(or (equal? * arg) (equal? + arg))
-     (define op-result (arg (pop-stack!) (pop-stack!))) 
-     (push-stack! op-result)]))
-(provide handle)
+(define (handle-args . args)
+  ;; the . is a rest argument -> any number of
+  ;; positional arguments can appear after it. only appear as last
+  ;; means, gather remaining arguments in a list and assign it to this var
+  (for/fold ([stack-acc empty])
+            ([arg (in-list args)]
+             #:unless (void? arg))
+    (cond
+      [(number? arg) (cons arg stack-acc)]
+      [(or (equal? * arg) (equal? + arg))
+       (define op-result
+         (arg (first stack-acc) (second stack-acc)))
+       (cons op-result (drop stack-acc 2))])))
+(provide handle-args)
 
 (provide + *)
