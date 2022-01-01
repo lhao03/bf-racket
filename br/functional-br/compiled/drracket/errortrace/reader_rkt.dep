@@ -1,1 +1,0 @@
-("8.3" ta6le ("10c2cb1e720f4a0d48adab1afb7934ef3c4d74a3" . "732dfce41c03f1b6740b88508e857ac9176af12e") #"/home/lucy/codes/racket-lang/br/functional-br/parser.rkt" (collects #"br" #"quicklang.rkt") (collects #"brag" #"support.rkt") (collects #"errortrace" #"errortrace-key.rkt") (collects #"racket" #"runtime-config.rkt"))
